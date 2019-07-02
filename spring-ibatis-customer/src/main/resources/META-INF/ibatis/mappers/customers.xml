@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap>
+
+	<select id="getAllCustomers" resultClass="kr.co.jhta.vo.Customer">
+		select
+			cust_id as id,
+			cust_name as name,
+			cust_nick as nick,
+			cust_tel as tel,
+			cust_email as email,
+			cust_addr as addr,
+			cust_point as point,
+			cust_create_date as createDate
+		from
+			customers
+		order by
+			cust_id asc
+	</select>
+	
+	<select id="getCustomerById" parameterClass="int" resultClass="kr.co.jhta.vo.Customer">
+		select
+			cust_id as id,
+			cust_name as name,
+			cust_nick as nick,
+			cust_tel as tel,
+			cust_email as email,
+			cust_addr as addr,
+			cust_point as point,
+			cust_create_date as createDate
+		from
+			customers
+		where
+			cust_id = #value#
+	</select>
+	
+	<select id="searchCustomers" parameterClass="map" resultClass="kr.co.jhta.vo.Customer">
+		select
+			cust_id as id,
+			cust_name as name,
+			cust_nick as nick,
+			cust_tel as tel,
+			cust_email as email,
+			cust_addr as addr,
+			cust_point as point,
+			cust_create_date as createDate
+		from
+			customers
+		<dynamic>
+			<isEqual property="option" compareValue="번호">
+				where cust_id = #keyword#
+			</isEqual>
+			<isEqual property="option" compareValue="이름">
+				where cust_name = #keyword#
+			</isEqual>
+			<isEqual property="option" compareValue="닉네임">
+				where cust_nick = #keyword#
+			</isEqual>
+		</dynamic>
+	</select>
+	
+	<insert id="insertCustomer" parameterClass="kr.co.jhta.vo.Customer">
+		insert into customers (cust_id, cust_name, cust_nick, cust_tel, cust_email, cust_addr, cust_point)
+		values
+			(customers_seq.nextval, #name#, #nick#, #tel#, #email#, #addr#, #point#)
+	</insert>
+	
+	<update id="updateCustomer" parameterClass="kr.co.jhta.vo.Customer">
+		update customers
+		set
+			cust_nick = #nick#,
+			cust_tel = #tel#,
+			cust_email = #email#,
+			cust_addr = #addr#,
+			cust_point = #point#
+		where
+			cust_id = #id#
+	</update>
+	
+	<delete id="deleteCustomerById" parameterClass="int">
+		delete
+		from
+			customers
+		where
+			cust_id = #value#
+	</delete>
+</sqlMap>

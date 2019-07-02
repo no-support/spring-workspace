@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="event" class="com.sample.di.demo4.EventNoticeService"><property name="messenger" ref="ms"></property></bean>
+	<bean id="order" class="com.sample.di.demo4.OrderService"><property name="messenger" ref="ms"></property></bean>
+	
+	<bean id="sms" class="com.sample.di.demo4.SmsMessenger"></bean>
+	<bean id="ms" class="com.sample.di.demo4.KatalkMessenger"></bean>
+</beans>

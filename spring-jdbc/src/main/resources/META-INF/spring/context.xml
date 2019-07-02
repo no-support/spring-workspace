@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!--
+		Connection Pool 객체를 스프링의 빈으로 등록하기
+	-->
+	<bean id="connectionpool" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+		<property name="username" value="hr"></property>
+		<property name="password" value="zxcv1234"></property>
+	</bean>
+	
+	<!--
+		템플릿 클래스
+		    - jdbc 액세스 작업을 단순화시켜놓은 클래스다.
+		    - insert/update/delete : update(sql, param) 메소드 사용
+		    - select : queryForObject(sql, rowmapper, param) 메소드 사용
+		               query(sql, rowmapper, param) 메소드 사용
+		    * db access 작업에 필요한 Connection 객체를 획득하기 위해서
+		    Connection Pool 객체에 의존한다.
+	-->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="connectionpool"></property>
+	</bean>
+	<!--
+		DAO 클래스
+			- 각각의 테이블에 대한 SQL 실행을 담당하는 클래스다.
+			* SQL 실행작업을 단순화시켜놓은 템플릿 클래스에 의존한다.
+	-->
+	<bean id="jobDao" class="kr.co.jhta.JobDao">
+		<property name="template" ref="jdbcTemplate"></property>
+	</bean>
+	
+	<bean id="employDao" class="kr.co.jhta.EmployeeDao">
+		<property name="template" ref="jdbcTemplate"></property>
+	</bean>
+</beans>

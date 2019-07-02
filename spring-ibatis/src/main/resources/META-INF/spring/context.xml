@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!--
+		<context:property-placeholder />는 지정된 경로의 Properties 파일을 읽어오는 객체를 스프링의 빈으로 등록시키는 태그다.
+	-->
+	<context:property-placeholder location="classpath:/META-INF/spring/*.properties"/>
+	<!--
+		Connection Pool 등록
+	-->
+	<bean id="connectionPool" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${db.driver}"></property>
+		<property name="url" value="${db.url}"></property>
+		<property name="username" value="${db.username}"></property>
+		<property name="password" value="${db.password}"></property>
+	</bean>
+	<!--
+		ibatis 핵심객체(SqlMapClient) 등록
+			SqlMapClientFactoryBean은 SqlMapClient객체를 생성하고, 스프링의 빈으로 등록한다.
+			* ibatis의 환경설정파일의 경로와 Connection Pool 객체를 주입해야 한다.
+			
+			* FactoryBean으로 끝나는 스프링의 클래스들은 일반적으로 해당 객체가 스프링의 빈으로 등록되는 것이 아니라 팩토리빈이 내부적으로 생성한 객체가 스프링의 빈으로 등록된다.
+	-->
+	<bean id="sqlMap" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation" value="classpath:/META-INF/ibatis/ibatis-config.xml"></property>
+		<property name="dataSource" ref="connectionPool"></property>
+	</bean>
+	<!--
+		ibatis용 템플릿 객체 등록
+			SqlMapClientTemplate를 스프링의 빈으로 등록한다.
+				* SqlMapClientTemplate는 내부적으로 ibatis의 핵심객체를 사용한다.
+				(즉, ibatis 핵심 객체를 주입해야 한다.)
+				* SqlMapClientTemplate는 ibatis 핵심객체(SqlMapClient)와 사용 방법이 똑같다.
+				(단, 오류 발생 시 SqlException 대신 DataAccessException을 던지고,
+					스프링의 선언적 트랜잭션 처리를 지원한다는 차이점이 있다.)
+				
+	-->
+	<bean id="ibatisTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
+		<property name="sqlMapClient" ref="sqlMap"></property>
+	</bean>
+	
+	<!--
+		DAO 클래스 빈으로 등록
+			- 모든 DAO들은 ibatis용 템플릿 객체를 이용해서 DB 액세스 작업을 구현한다.
+			* xxxDao들에게 SqlMapClientTemplate를 주입해야 한다.
+	-->
+	<bean id="jobDao" class="kr.co.jhta.dao.JobDao">
+		<property name="template" ref="ibatisTemplate"></property>
+	</bean>
+</beans>

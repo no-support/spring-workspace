@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.9.9.201906180643-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[true]]></enableImports>
+	<configs>
+		<config>src/main/java/com/sample/di/demo1/demo1.xml</config>
+		<config>src/main/java/com/sample/di/demo2/demo2.xml</config>
+		<config>src/main/java/com/sample/di/demo3/demo3.xml</config>
+		<config>src/main/java/com/sample/di/demo4/demo4.xml</config>
+		<config>src/main/java/com/sample/di/demo5/demo5.xml</config>
+		<config>src/main/java/com/sample/di/demo6/demo6.xml</config>
+		<config>src/main/java/com/sample/di/demo7/demo7.xml</config>
+		<config>src/main/java/com/sample/di/demo8/demo8.xml</config>
+		<config>src/main/java/com/sample/di/demo9/demo9.xml</config>
+	</configs>
+	<autoconfigs>
+	</autoconfigs>
+	<configSets>
+		<configSet>
+			<name><![CDATA[test]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+			</configs>
+			<profiles>
+			</profiles>
+		</configSet>
+	</configSets>
+</beansProjectDescription>

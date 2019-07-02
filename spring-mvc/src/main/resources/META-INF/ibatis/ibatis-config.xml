@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<sqlMap resource="META-INF/ibatis/mappers/jobs.xml" />
+	<sqlMap resource="META-INF/ibatis/mappers/employees.xml" />
+	<sqlMap resource="META-INF/ibatis/mappers/departments.xml" />
+</sqlMapConfig>

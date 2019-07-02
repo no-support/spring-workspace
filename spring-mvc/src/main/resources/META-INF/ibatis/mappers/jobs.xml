@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap>
+
+	<insert id="addJob" parameterClass="kr.co.jhta.vo.Job">
+		insert into jobs
+		(job_id, job_title, min_salary, max_salary)
+		values
+		(#id#, #title#, #minSalary#, #maxSalary#)
+	</insert>
+	
+	
+	<select id="getAllJobs" resultClass="kr.co.jhta.vo.Job">
+		select
+			job_id as id,
+			job_title as title,
+			min_salary as minSalary,
+			max_salary as maxSalary
+		from
+			jobs
+		order by
+			job_id asc
+	</select>
+	
+	<select id="getJobById" parameterClass="string" resultClass="kr.co.jhta.vo.Job">
+		select
+			job_id as id,
+			job_title as title,
+			min_salary as minSalary,
+			max_salary as maxSalary
+		from
+			jobs
+		where
+			job_id = #value#
+	</select>
+</sqlMap>
